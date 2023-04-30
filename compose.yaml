@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  pyama_web_interface:
+    build:
+      context: .
+      dockerfile: Containerfile
+    volumes:
+      - .:/pyama:ro
+      - ./models:/models:rw
+    ports:
+      - "8000:5000"

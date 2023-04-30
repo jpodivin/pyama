@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "pyama"
+version = "0.1.0"
+description = "\"Flask frontend for llama.cpp models\""
+authors = ["Jiri Podivin <jpodivin@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.2.3"
+requests = "^2.28.2"
+pycurl = "^7.45.2"
+llama-cpp-python = "^0.1.39"
+GitPython = "^3.1.31"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pyama = "pyllama.pyllama:main"

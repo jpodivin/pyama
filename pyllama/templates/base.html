@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<title>Pyllama {% block title %}{% endblock %}</title>
+<link rel="stylesheet" href={{ url_for('static', filename='style.css') }}>
+<nav>
+    <h1>Pyllama</h1>
+    <table>
+        <tr>
+            <td>
+                <a href={{ url_for('models.models') }}>Models</a>
+            </td>
+            <td>
+                <a href={{ url_for('prompt.prompts') }}>Prompts</a>
+            </td>
+        </tr>
+    </table>
+</nav>
+<section class="content">
+    <header>
+        {% block header%}{% endblock %}
+    </header>
+    {% block content %}{% endblock %}
+</section>

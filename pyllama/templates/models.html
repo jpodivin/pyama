@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block header %}
+  <h1>{% block title %}Model management{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  {% if errors %}
+    <table>
+      {% for err in errors %}
+        <tr>
+          <td>
+            {{ err }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+  <form method="post">
+    <ul>
+      <il>
+        <label for="model-link">Model Link</label>
+      </il>
+      <il>
+        <input name="model_url" id="model-link" required value="" type="url">
+      </il>
+      <il>
+        <input type="submit" value="Download">
+      </il>
+    </ul>
+  </form>
+  <h2>Installed models</h2>
+  <table>
+    {% for model in models %}
+    <tr>
+      <td>
+        {{ model }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block header %}
+  <h1>{% block title %}Prompt submission{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <ul>
+      <il>
+        <label for="advanced_settings">Advanced: </label>
+      </il>
+      <il>
+        <input name="advanced_settings" id="advanced_settings" type="checkbox">
+      </il>
+      <il>
+        <label for="debug">Debug: </label>
+      </il>
+      <il>
+        <input name="debug" id="debug" type="checkbox">
+      </il>
+      <il>
+        <label for="selected_model">Model: </label>
+      </il>
+      <il>
+        <select name="selected_model" id="selected_model" required>
+           {% for model in available_models %}
+              <option value="{{ model }}">
+                {{ model }}
+              </option>
+           {% endfor %}
+        </select>
+      </il>
+    </ul>
+    {% if advanced_settings %}
+    <table id="advanced_model_settings">
+      <tr>
+        <td>
+          <label for="max_tokens">max_tokens</label>
+          <input name="max_tokens" id="max_tokens" type="number" min="0" max="1024" value="256">
+        </td>
+        <td>
+          <label for="stop_strings">stop_strings</label>
+          <input name="stop_strings" id="stop_strings" type="text", value="">
+        </td>
+        <td>
+          <label for="temperature">temperature</label>
+          <input name="temperature" id="temperature" type="number" min="0" max="1" step="0.001">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="logprobs">logprobs</label>
+          <input name="logprobs" id="logprobs" type="number" min="0">
+        </td>
+        <td>
+          <label for="top_k">top_k</label>
+          <input name="top_k" id="top_k" type="number" min="0">
+        </td>
+        <td>
+          <label for="top_p">top_p</label>
+          <input name="top_p" id="top_p" type="number" min="0" max="1" step="0.01">
+        </td>
+        <td>
+          <label for="repeat_penalty">repeat_penalty</label>
+          <input name="repeat_penalty" id="repeat_penalty" type="number" min="0">
+        </td>
+      </tr>
+    </table>
+    {% endif %}
+    <ul>
+      <il>
+        <label for="prompt">Prompt</label>
+      </il>
+      <il>
+        <input name="prompt" id="prompt" required value="">
+      </il>
+      <il>
+        <input type="submit" value="Prompt">
+      </il>
+    </ul>
+  </form>
+  <div>
+    <table>
+      {% for r in responses %}
+      <tr>
+        <td>
+          {{ r }}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+{% endblock %}
