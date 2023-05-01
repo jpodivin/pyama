@@ -7,7 +7,7 @@ RUN pip install wheel Flask
 
 RUN pip install ./pyama
 
-ENV FLASK_APP=./pyama/pyllama/__init__.py
+ENV FLASK_APP=./pyama/pyama/__init__.py
 
 EXPOSE 5000
 

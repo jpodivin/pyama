@@ -1,6 +1,7 @@
 import glob
 import os
 import tempfile
+
 import pycurl
 from flask import Blueprint
 from flask import blueprints as bp

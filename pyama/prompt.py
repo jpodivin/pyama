@@ -10,7 +10,6 @@ from pyama import constants, download
 bp = Blueprint('prompt', __name__)
 
 responses = []
-advanced_settings = True
 MODEL = None
 
 CONFIG_CASTS = {
@@ -49,16 +48,6 @@ def get_settings():
             else:
                 model_settings[key] = CONFIG_CASTS[key](value)
 
-    # model_settings['max_tokens'] = int(model_settings['max_tokens'])
-    # if 'logits_all' in model_settings:
-    #     model_settings['logprobs'] = int(model_settings['logprobs'])
-    # else:
-    #     model_settings['logprobs'] = None
-    # model_settings['top_k'] = int(model_settings['top_k'])
-    # model_settings['top_p'] = float(model_settings['top_p'])
-    # model_settings['temperature'] = float(model_settings['temperature'])
-    # model_settings['repeat_penalty'] = float(model_settings['repeat_penalty'])
-
     return model_settings
 
 def get_response(prompt='', debug=False, max_tokens=256, stop_strings=None, **kwargs):
@@ -73,9 +62,9 @@ def get_response(prompt='', debug=False, max_tokens=256, stop_strings=None, **kw
 def prompts():
     available_models = download.get_models_list()
     model_path = request.form.get('selected_model', "no_model")
-
     current_app.logger.info(f"Selected model path: {model_path}")
-
+    if 'model_settings' in session.keys():
+        current_app.logger.info(f"Session settings {session['model_settings']}")
     if request.method == 'POST':
         if model_path == "no_model":
             current_app.logger.warning("No model selected")
@@ -83,11 +72,12 @@ def prompts():
         else:
             initialize_model(model_path)
             model_settings = get_settings()
-            session['model_settings'] = model_settings
-            current_app.logger.info(model_settings)
+            session['model_settings'] = model_settings.copy()
+            session.modified = True
+            current_app.logger.info(f"Current model settings: {model_settings}")
             responses.append(
                 get_response(prompt=request.form['prompt'], debug=request.form.get('debug', False), **model_settings))
 
     return render_template(
         'prompts.html', responses=reversed(responses), available_models=available_models,
-        advanced_settings=advanced_settings)
+        model_settings=session.get('model_settings', {}))

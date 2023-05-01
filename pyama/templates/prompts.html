@@ -7,12 +7,6 @@
   <form method="post">
     <ul>
       <il>
-        <label for="advanced_settings">Advanced: </label>
-      </il>
-      <il>
-        <input name="advanced_settings" id="advanced_settings" type="checkbox">
-      </il>
-      <il>
         <label for="debug">Debug: </label>
       </il>
       <il>
@@ -31,56 +25,59 @@
         </select>
       </il>
     </ul>
-    {% if advanced_settings %}
     <table id="advanced_model_settings">
       <tr>
         <td>
           <label for="max_tokens">max_tokens</label>
-          <input name="max_tokens" id="max_tokens" type="number" min="0" max="1024" value="256">
+          <input name="max_tokens" id="max_tokens" type="number" min="0" max="1024" value={{ model_settings.max_tokens | default("256") }}>
         </td>
         <td>
           <label for="stop_strings">stop_strings</label>
-          <input name="stop_strings" id="stop_strings" type="text", value="">
+          <input name="stop_strings" id="stop_strings" type="text"
+           value={{ model_settings.stop_strings | default("") }}>
         </td>
         <td>
           <label for="temperature">temperature</label>
-          <input name="temperature" id="temperature" type="number" min="0" max="1" step="0.001">
+          <input name="temperature" id="temperature" type="number" min="0" max="10" step="0.001" 
+            value={{ model_settings.temperature | default("") }}>
         </td>
       </tr>
       <tr>
         <td>
           <label for="logprobs">logprobs</label>
-          <input name="logprobs" id="logprobs" type="number" min="0">
+          <input name="logprobs" id="logprobs" type="number" min="0"
+            value={{ model_settings.logprobs | default("") }}>
         </td>
         <td>
           <label for="top_k">top_k</label>
-          <input name="top_k" id="top_k" type="number" min="0">
+          <input name="top_k" id="top_k" type="number" min="0" value={{ model_settings.top_k | default("") }}>
         </td>
         <td>
           <label for="top_p">top_p</label>
-          <input name="top_p" id="top_p" type="number" min="0" max="1" step="0.01">
+          <input name="top_p" id="top_p" type="number" min="0" max="1" step="0.01"
+            value={{ model_settings.top_p | default("") }}>
         </td>
         <td>
           <label for="repeat_penalty">repeat_penalty</label>
-          <input name="repeat_penalty" id="repeat_penalty" type="number" min="0">
+          <input name="repeat_penalty" id="repeat_penalty" type="number" min="0"
+            value={{ model_settings.repeat_penalty | default("") }}>
         </td>
       </tr>
     </table>
-    {% endif %}
     <ul>
       <il>
-        <label for="prompt">Prompt</label>
+        <label for="prompt" id="prompt_label">Prompt: </label>
       </il>
       <il>
-        <input name="prompt" id="prompt" required value="">
+        <textarea name="prompt" id="prompt" value="" required cols="80" rows="6"></textarea>
       </il>
       <il>
-        <input type="submit" value="Prompt">
+        <input type="submit" value="Prompt" id="prompt_button">
       </il>
     </ul>
   </form>
   <div>
-    <table>
+    <table class="prompt_responses">
       {% for r in responses %}
       <tr>
         <td>

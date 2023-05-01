@@ -19,4 +19,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-pyama = "pyllama.pyllama:main"
+pyama = "pyama.pyama:main"
