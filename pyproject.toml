@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pyama"
 version = "0.1.0"
-description = "\"Flask frontend for llama.cpp models\""
+description = "Flask frontend for llama.cpp models"
 authors = ["Jiri Podivin <jpodivin@gmail.com>"]
 readme = "README.md"
 

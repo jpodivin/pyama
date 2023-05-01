@@ -1,11 +1,8 @@
-import logging
-import os
-
-from flask import (Blueprint, Flask, current_app, render_template, request,
+from flask import (Blueprint, current_app, render_template, request,
                    session)
 from llama_cpp import Llama
 
-from pyama import constants, download
+from pyama import download
 
 bp = Blueprint('prompt', __name__)
 
@@ -22,17 +19,20 @@ CONFIG_CASTS = {
     'stop_strings': str
 }
 
+
 def dummy_model(prompt, **kwargs):
     return f"I should respond to {prompt} with {kwargs}"
+
 
 def initialize_model(model_path, **kwargs):
     global MODEL
     current_app.logger.info(f"Attempting to load model from {model_path}")
     try:
-        MODEL  = Llama(model_path, **kwargs)
+        MODEL = Llama(model_path, **kwargs)
     except Exception as e:
         current_app.logger.error(f"{e}")
         MODEL = dummy_model
+
 
 def get_settings():
 
@@ -50,12 +50,14 @@ def get_settings():
 
     return model_settings
 
+
 def get_response(prompt='', debug=False, max_tokens=256, stop_strings=None, **kwargs):
     global MODEL
     model_out = MODEL(prompt, max_tokens=max_tokens, stop=stop_strings, echo=True, **kwargs)
     if debug:
         return model_out
     return model_out['choices'][0]['text']
+
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/prompts', methods=['GET', 'POST'])
@@ -76,7 +78,8 @@ def prompts():
             session.modified = True
             current_app.logger.info(f"Current model settings: {model_settings}")
             responses.append(
-                get_response(prompt=request.form['prompt'], debug=request.form.get('debug', False), **model_settings))
+                get_response(prompt=request.form['prompt'],
+                             debug=request.form.get('debug', False), **model_settings))
 
     return render_template(
         'prompts.html', responses=reversed(responses), available_models=available_models,

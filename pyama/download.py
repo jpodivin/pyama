@@ -4,13 +4,13 @@ import tempfile
 
 import pycurl
 from flask import Blueprint
-from flask import blueprints as bp
 from flask import current_app, render_template, request
 from git import Repo
 
 from pyama.constants import MODEL_PATH
 
 bp = Blueprint('models', __name__)
+
 
 def get_models_list(path=MODEL_PATH):
     model_paths = [
@@ -19,6 +19,7 @@ def get_models_list(path=MODEL_PATH):
         in glob.glob(os.path.join(path, '**/*.bin',), recursive=True)
         if m.endswith('.bin')]
     return model_paths
+
 
 def clone_repo(url):
 
@@ -36,6 +37,7 @@ def curl_model(url):
         c.perform()
         c.close()
 
+
 def download_model(url):
     current_app.logger.info(f"Downloading model from {url}")
 
@@ -43,6 +45,7 @@ def download_model(url):
         clone_repo(url)
     else:
         curl_model(url)
+
 
 @bp.route('/models', methods=['POST', 'GET'])
 def models(model_path=MODEL_PATH):
