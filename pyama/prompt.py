@@ -1,12 +1,11 @@
-from flask import Blueprint, current_app, render_template, request, session
-from llama_cpp import Llama
-
-from pyama import download, constants
-
-from yaml import safe_load
-
 import glob
 import re
+
+from flask import Blueprint, current_app, render_template, request, session
+from llama_cpp import Llama
+from yaml import safe_load
+
+from pyama import constants, download
 
 bp = Blueprint('prompt', __name__)
 
