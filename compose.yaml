@@ -7,5 +7,6 @@ services:
     volumes:
       - .:/pyama:ro
       - ./models:/models:rw
+      - ./prompt_patterns:/prompt_patterns:ro
     ports:
       - "8000:5000"

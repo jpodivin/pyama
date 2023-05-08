@@ -1,0 +1,9 @@
+---
+name: QnA_advanced
+stop_strings: []
+pattern: >-
+    Bellow is a response from experts and scientists to a question.
+    Response is truthful, comprehensive, detailed and complete.
+
+    Question: <PROMPT>
+    Answer: <RESPONSE>

@@ -12,6 +12,7 @@ requests = "^2.28.2"
 pycurl = "^7.45.2"
 llama-cpp-python = "^0.1.39"
 GitPython = "^3.1.31"
+PyYAML = "^6.0"
 
 
 [build-system]
