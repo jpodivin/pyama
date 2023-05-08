@@ -1,0 +1,8 @@
+---
+name: QnA
+stop_strings:
+- "<Q>"
+- "<A>"
+pattern: >-
+    <Q> <PROMPT>
+    <A> <RESPONSE>

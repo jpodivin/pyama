@@ -24,6 +24,18 @@
            {% endfor %}
         </select>
       </il>
+      <il>
+        <label for="selected_prompt">Prompt: </label>
+      </il>
+      <il>
+        <select name="selected_prompt", id="selected_prompt">
+          {% for prompt in available_prompts.keys() %}
+            <option value="{{ available_prompts[prompt].name }}">
+              {{ available_prompts[prompt].name }}
+            </option>
+          {% endfor %}
+        </select>
+      </il>
     </ul>
     <table id="advanced_model_settings">
       <tr>
