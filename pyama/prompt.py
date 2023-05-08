@@ -15,7 +15,8 @@ CONFIG_TYPE_CASTS = {
     'temperature': float,
     'repeat_penalty': float,
     'logprobs': int,
-    'stop_strings': str
+    'stop_strings': str,
+    'debug': bool
 }
 
 
@@ -78,7 +79,7 @@ def prompts():
             current_app.logger.info(f"Current model settings: {model_settings}")
             responses.append(
                 get_response(prompt=request.form['prompt'],
-                             debug=request.form.get('debug', False), **model_settings))
+                             **model_settings))
 
     return render_template(
         'prompts.html', responses=reversed(responses), available_models=available_models,
