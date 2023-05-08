@@ -32,7 +32,7 @@ def initialize_model(model_path, **kwargs):
     global MODEL
     current_app.logger.info(f"Attempting to load model from {model_path}")
     try:
-        MODEL = Llama(model_path, **kwargs)
+        MODEL = Llama(model_path, n_ctx=2000, **kwargs)
     except Exception as e:
         current_app.logger.error(f"{e}")
         MODEL = dummy_model
@@ -74,7 +74,8 @@ def get_settings(prompt_patterns):
                 model_settings.pop(key)
             else:
                 model_settings[key] = CONFIG_TYPE_CASTS[key](value)
-    model_settings['stop_strings'] = ','.join(prompt_patterns[selected_prompt]['stop_strings'])
+    model_settings['stop_strings'] = ','.join(
+        prompt_patterns[selected_prompt].get('stop_strings', []))
 
     return model_settings
 

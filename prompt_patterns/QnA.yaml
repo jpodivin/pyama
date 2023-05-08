@@ -1,8 +1,6 @@
 ---
 name: QnA
-stop_strings:
-- "<Q>"
-- "<A>"
+stop_strings: []
 pattern: >-
     <Q> <PROMPT>
     <A> <RESPONSE>
