@@ -43,6 +43,8 @@ def get_prompt_patterns(prompt_path=constants.PROMPT_PATH):
     patterns = {}
     pattern_files = glob.glob(prompt_path+"/*.yaml")
     current_app.logger.info(f"Discovered prompt patterns: {pattern_files}")
+
+    # Safely load all yaml files in the directory
     for pattern_file in pattern_files:
         with open(pattern_file, 'r') as pattern_file:
             pattern = safe_load(pattern_file.read())
@@ -51,6 +53,9 @@ def get_prompt_patterns(prompt_path=constants.PROMPT_PATH):
 
 
 def render_prompt(prompt_pattern, user_input):
+    """Replace substitue tokens from the prompt pattern with user input
+    and model output.
+    """
     prompt_pattern = re.sub('<PROMPT>', user_input, prompt_pattern)
     prompt_pattern = re.sub('<RESPONSE>', '', prompt_pattern)
     return prompt_pattern
@@ -97,6 +102,7 @@ def prompts():
     model_path = request.form.get('selected_model', "no_model")
     selected_prompt = request.form.get('selected_prompt', "")
 
+    # Logging model settings
     current_app.logger.info(f"Prompts {available_prompts}")
     current_app.logger.info(f"Selected model path: {model_path}")
 
@@ -113,6 +119,7 @@ def prompts():
             initialize_model(model_path)
             model_settings = get_settings(available_prompts)
 
+            # Preserving model settings between runs as a personalized cookie
             session['model_settings'] = model_settings.copy()
             session['selected_prompt'] = selected_prompt
             session.modified = True
