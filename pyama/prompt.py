@@ -1,5 +1,4 @@
-from flask import (Blueprint, current_app, render_template, request,
-                   session)
+from flask import Blueprint, current_app, render_template, request, session
 from llama_cpp import Llama
 
 from pyama import download
@@ -9,7 +8,7 @@ bp = Blueprint('prompt', __name__)
 responses = []
 MODEL = None
 
-CONFIG_CASTS = {
+CONFIG_TYPE_CASTS = {
     'max_tokens': int,
     'top_k': int,
     'top_p': float,
@@ -46,7 +45,7 @@ def get_settings():
             elif key == 'logprobs' and 'logits_all' not in model_settings:
                 model_settings.pop(key)
             else:
-                model_settings[key] = CONFIG_CASTS[key](value)
+                model_settings[key] = CONFIG_TYPE_CASTS[key](value)
 
     return model_settings
 

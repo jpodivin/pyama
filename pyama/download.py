@@ -3,8 +3,7 @@ import os
 import tempfile
 
 import pycurl
-from flask import Blueprint
-from flask import current_app, render_template, request
+from flask import Blueprint, current_app, render_template, request
 from git import Repo
 
 from pyama.constants import MODEL_PATH
@@ -14,10 +13,10 @@ bp = Blueprint('models', __name__)
 
 def get_models_list(path=MODEL_PATH):
     model_paths = [
-        m
-        for m
+        model
+        for model
         in glob.glob(os.path.join(path, '**/*.bin',), recursive=True)
-        if m.endswith('.bin')]
+        if model.endswith('.bin')]
     return model_paths
 
 
