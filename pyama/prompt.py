@@ -83,15 +83,19 @@ def get_settings(prompt_patterns):
 def get_response(prompt='', debug=False, max_tokens=256, stop_strings=None,
                  prompt_pattern='', **kwargs):
     global MODEL
-    prompt = render_prompt(prompt_pattern, prompt)
+    rendered_prompt = render_prompt(prompt_pattern, prompt)
 
     current_app.logger.info(
-        f"Prompt rendered as: {prompt}")
+        f"Prompt rendered as: {rendered_prompt}")
 
-    model_out = MODEL(prompt, max_tokens=max_tokens, stop=stop_strings, echo=True, **kwargs)
+    model_out = MODEL(
+        rendered_prompt, max_tokens=max_tokens,
+        stop=stop_strings, echo=True, **kwargs)
     if debug:
-        return model_out
-    return model_out['choices'][0]['text']
+        return rendered_prompt, model_out
+    model_out = model_out['choices'][0]['text']
+    model_out = model_out[len(rendered_prompt):]
+    return prompt, model_out
 
 
 @bp.route('/', methods=['GET', 'POST'])

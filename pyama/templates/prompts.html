@@ -89,9 +89,20 @@
     </ul>
   </form>
   <div>
-    <table class="prompt_responses">
-      {% for r in responses %}
-      <tr>
+    <table id="prompt_responses">
+      {% for p, r in responses %}
+      <tr class="rendered_prompt">
+        <td class="conversation_label">
+          Prompt:
+        </td>
+        <td>
+          {{ p }}
+        </td>
+      </tr>
+      <tr class="rendered_response">
+        <td class="conversation_label">
+          Response:
+        </td>
         <td>
           {{ r }}
         </td>

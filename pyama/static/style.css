@@ -27,6 +27,9 @@ input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
 form #advanced_model_settings { flex: auto; font-size: 70%}
 table { border-bottom: 1px;}
-table #prompt_responses { border: 4px; }
+/* #prompt_responses > tbody td { border-bottom: 4px; stroke: black; border-bottom-style: solid;} */
 #prompt_button { flex: auto; }
 #prompt_label { align-content: stretch;}
+.rendered_prompt > td { font-style: italic; border-bottom: 2px; border-bottom-style: dashed;}
+.rendered_response > td { border-bottom: 4px; stroke: black; border-bottom-style: solid; }
+.conversation_label > td { stroke: grey; }
