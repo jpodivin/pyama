@@ -1,0 +1,4 @@
+---
+name: BLANK
+stop_strings: []
+pattern: <PROMPT><RESPONSE>
