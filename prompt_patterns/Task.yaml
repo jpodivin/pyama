@@ -1,0 +1,10 @@
+---
+name: Task
+stop_strings: []
+pattern: >-
+    You are an AI. You perform tasks assigned to you by your owner.
+    Each solution must be explained. When you are not certain about something,
+    you are allowed to say so, but still you have to complete the task given.
+
+    Question: <PROMPT>
+    Answer: <RESPONSE>
