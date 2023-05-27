@@ -63,9 +63,14 @@ def render_prompt(prompt_pattern, user_input):
 def get_settings(prompt_patterns):
 
     model_settings = request.form.copy()
+    runtime_settings = {
+        'selected_prompt': model_settings.pop('selected_prompt'),
+        'selected_model': model_settings.pop('selected_model')
+    }
+    # Remove some keys from persistent settings
     model_settings.pop('prompt')
-    selected_prompt = model_settings.pop('selected_prompt')
-    model_settings.pop('selected_model')
+    selected_prompt = runtime_settings['selected_prompt']
+
     for key, value in request.form.items():
         if key in model_settings:
             if len(model_settings[key]) == 0:
@@ -74,15 +79,19 @@ def get_settings(prompt_patterns):
                 model_settings.pop(key)
             else:
                 model_settings[key] = CONFIG_TYPE_CASTS[key](value)
-    model_settings['stop_strings'] = ','.join(
-        prompt_patterns[selected_prompt].get('stop_strings', []))
 
-    return model_settings
+    # Default to prompt defined stop strings if necessary
+    if 'stop_strings' not in model_settings:
+        stop_strings = prompt_patterns[selected_prompt].get('stop_strings', [])
+        current_app.logger.info(f"Defaulting to base prompt stop strings {stop_strings}")
+        model_settings['stop_strings'] = ','.join(stop_strings)
+    return model_settings, runtime_settings
 
 
 def get_response(prompt='', debug=False, max_tokens=256, stop_strings=None,
                  prompt_pattern='', **kwargs):
     global MODEL
+    stop_strings = stop_strings.split(',')
     rendered_prompt = render_prompt(prompt_pattern, prompt)
 
     current_app.logger.info(
@@ -121,10 +130,11 @@ def prompts():
             responses.append("No model selected!")
         else:
             initialize_model(model_path)
-            model_settings = get_settings(available_prompts)
+            model_settings, runtime_settings = get_settings(available_prompts)
 
-            # Preserving model settings between runs as a personalized cookie
+            # Preserving model settings and prompt between runs as a personalized cookie
             session['model_settings'] = model_settings.copy()
+            session['runtime_settings'] = runtime_settings.copy()
             session['selected_prompt'] = selected_prompt
             session.modified = True
 
@@ -137,4 +147,5 @@ def prompts():
 
     return render_template(
         'prompts.html', responses=reversed(responses), available_models=available_models,
-        model_settings=session.get('model_settings', {}), available_prompts=available_prompts)
+        model_settings=session.get('model_settings', {}), available_prompts=available_prompts,
+        runtime_settings=session.get('runtime_settings', {}))

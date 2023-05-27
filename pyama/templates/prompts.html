@@ -81,7 +81,8 @@
         <label for="prompt" id="prompt_label">Prompt: </label>
       </il>
       <il>
-        <textarea name="prompt" id="prompt" value="" required cols="80" rows="6"></textarea>
+        <textarea name="prompt" id="prompt"
+          value={{ runtime_settings.selected_prompt | default("") }} required cols="80" rows="6"></textarea>
       </il>
       <il>
         <input type="submit" value="Prompt" id="prompt_button">
